@@ -1,0 +1,42 @@
+services:
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    working_dir: /app
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+    command: npm run dev
+    restart: always
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - mysql_init_scripts:/docker-entrypoint-initdb.d
+    restart: always
+
+  adminer:
+    image: adminer
+    container_name: adminer-db
+    ports:
+      - "8080:8080"
+    restart: always
+
+volumes:
+  postgres_init_scripts:

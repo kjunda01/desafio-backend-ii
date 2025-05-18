@@ -1,15 +1,29 @@
 services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    working_dir: /app
+    command: npm run dev -- --host
+    restart: always
+
   backend:
     build:
-      context: ./
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - ./:/app
+      - ./backend:/app
       - /app/node_modules
     working_dir: /app
     environment:
+      - NODE_ENV=${NODE_ENV}
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - db
@@ -21,9 +35,9 @@ services:
     container_name: mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - "3306:3306"
     volumes:
@@ -39,4 +53,4 @@ services:
     restart: always
 
 volumes:
-  postgres_init_scripts:
+  mysql_init_scripts:

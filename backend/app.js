@@ -1,10 +1,13 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+
 
 import horaRoutes from "./routes/horaRoutes.js";
 import clientesRoutes from "./routes/clientesRoutes.js";
 // import produtosRoutes from "./routes/produtosRoutes.js";
 
+dotenv.config();
 const app = express();
 
 app.use(

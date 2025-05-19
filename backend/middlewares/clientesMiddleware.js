@@ -21,7 +21,9 @@ const validaCliente = (req, res, next) => {
     erros.push({ message: "Idade inválida. Deve ser um número entre 0 e 130." });
   }
 
-  if (erros) return res.status(400).json({ error: erros });
+  if (erros) {
+    return res.status(400).json({ error: erros });
+  }
 
   next();
 };

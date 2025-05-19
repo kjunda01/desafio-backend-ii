@@ -1,15 +1,10 @@
-import createError from "http-errors";
- 
-const getHora = async (req, res, next) => {
+import { horaService } from "../services/horaService.js";
 
-    try {
-      const data = await fipeService.obterMarcas(codigoTipoVeiculo);
-      return successResponse(res, "Marcas obtidas com sucesso", data);
-    } catch (error) {
-      return next(createError(404, "Erro ao obter marcas.", { cause: error }));
-    }
-  };
+const getHora = async (req, res) => {
+  const resultado = await await horaService.getHora();
+  return resultado ? res.status(200).json(resultado) : res.status(400).json({ message: "Falha ao encontrar a hora do banco" });
+};
 
 export const horaController = {
-    getHora
+  getHora,
 };

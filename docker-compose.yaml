@@ -27,7 +27,7 @@ services:
       - DATABASE_URL=${DATABASE_URL}
     depends_on:
       - db
-    command: npm run dev
+    command: sh -c "wait-for-it.sh db:3306 --timeout=30 -- npm run dev"
     restart: always
 
   db:

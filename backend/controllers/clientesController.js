@@ -12,7 +12,7 @@ const readAll = async (req, res) => {
 };
 
 const readSingle = async (req, res) => {
-  console.log(req.params)
+  console.log(req.params);
   const { id } = req.params;
   const resultado = await await clientesService.readSingle(id);
   return resultado ? res.status(200).json() : res.status(400).json({ message: "Falha ao encontrar cliente específico" });

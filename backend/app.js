@@ -22,13 +22,13 @@ app.use(
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 
 app.use(express.json());
 
 const routes = {
-  // "/": horaRoutes,
+  "/": horaRoutes,
   "/clientes": clientesRoutes,
   // "/produtos": produtosRoutes,
 };

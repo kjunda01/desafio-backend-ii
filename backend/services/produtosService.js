@@ -1,9 +1,11 @@
 import bancoDeDados from "../config/db.js";
+import { formatarDataParaSQL } from "../utils/formatarDataParaSQL.js";
 
 // CREATE
-const create = async (cliente) => {
+const create = async (produto) => {
   const query = "INSERT INTO produtos(nome, descricao, preco, data_atualizado) VALUES (?, ?, ?, ?)";
-  const [result] = await bancoDeDados.execute(query, [cliente.nome, cliente.descricao, cliente.preco, cliente.data_atualizado]);
+  const dataFormatada = formatarDataParaSQL(produto.data_atualizado);
+  const [result] = await bancoDeDados.execute(query, [produto.nome, produto.descricao, produto.preco, dataFormatada]);
   return result.affectedRows === 1;
 };
 
@@ -22,14 +24,15 @@ const readSingle = async (id) => {
 };
 
 // UPDATE
-const update = async (cliente) => {
+const update = async (produto) => {
   const query = "UPDATE produtos SET nome = ?, descricao = ?, preco = ?, data_atualizado = ? WHERE id = ?";
+  const dataFormatada = formatarDataParaSQL(produto.data_atualizado);
   const [result] = await bancoDeDados.execute(query, [
-    cliente.nome,
-    cliente.descricao,
-    cliente.preco,
-    cliente.data_atualizado,
-    cliente.id,
+    produto.nome,
+    produto.descricao,
+    produto.preco,
+    dataFormatada,
+    produto.id,
   ]);
   return result.affectedRows === 1;
 };

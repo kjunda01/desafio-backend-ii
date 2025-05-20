@@ -1,12 +1,12 @@
 import { useState } from "react";
 import TabelaClientes from "./components/TabelaClientes";
 import TabelaProdutos from "./components/TabelaProdutos";
-import { ClientesProvider } from "./contexts/ClientesContext";
 import CreateClientes from "./components/CreateClientes";
+import CreateProdutos from "./components/CreateProdutos";
+import { ClientesProvider } from "./contexts/ClientesContext";
+import { ProdutosProvider } from "./contexts/ProdutosContext";
 
 const App = () => {
-  const [produtos, setProdutos] = useState([]);
-
   return (
     <div className="w-screen h-screen flex flex-col bg-blue-100 overflow-hidden">
       {/* Cabeçalho */}
@@ -32,9 +32,12 @@ const App = () => {
         {/* Produtos */}
         <section className="flex flex-col flex-1 min-w-0 bg-white border rounded shadow p-4 overflow-hidden">
           <h2 className="text-2xl font-bold text-center mb-4">Produtos</h2>
-          <div className="flex-1 overflow-auto">
-            <TabelaProdutos produtos={produtos} />
-          </div>
+          <ProdutosProvider>
+            <CreateProdutos />
+            <div className="flex-1 overflow-auto">
+              <TabelaProdutos />
+            </div>
+          </ProdutosProvider>
         </section>
       </main>
     </div>

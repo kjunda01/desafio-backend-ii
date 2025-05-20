@@ -2,9 +2,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-
 import horaRoutes from "./routes/horaRoutes.js";
 import clientesRoutes from "./routes/clientesRoutes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 // import produtosRoutes from "./routes/produtosRoutes.js";
 
 dotenv.config();
@@ -23,10 +23,8 @@ app.use(
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  }),
+  })
 );
-
-
 
 const routes = {
   "/": horaRoutes,
@@ -37,5 +35,7 @@ const routes = {
 for (const [route, handler] of Object.entries(routes)) {
   app.use(route, handler);
 }
+
+app.use(errorHandler);
 
 export default app;

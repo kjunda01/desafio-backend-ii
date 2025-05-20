@@ -6,9 +6,9 @@ import cacheMiddleware from "../middlewares/cacheMiddleware.js";
 const clientesRoutes = Router();
 
 clientesRoutes.get("/", cacheMiddleware, clientesController.readAll);
-clientesRoutes.get("/:id", cacheMiddleware, clientesController.readSingle);
-clientesRoutes.post("/", cacheMiddleware, clientesMiddleware.validaCliente, clientesController.create);
-clientesRoutes.put("/:id", cacheMiddleware, clientesController.update);
-clientesRoutes.delete("/:id", cacheMiddleware, clientesController.remove);
+clientesRoutes.get("/:id", cacheMiddleware, clientesMiddleware.verificaID, clientesController.readSingle);
+clientesRoutes.post("/", clientesMiddleware.verificaEmail, clientesMiddleware.validaCliente, clientesController.create);
+clientesRoutes.put("/:id", clientesMiddleware.verificaID, clientesMiddleware.validaCliente, clientesController.update);
+clientesRoutes.delete("/:id", clientesMiddleware.verificaID, clientesController.remove);
 
 export default clientesRoutes;

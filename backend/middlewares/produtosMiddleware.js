@@ -34,7 +34,7 @@ const validaProduto = (req, res, next) => {
   }
 
   if (!dataValida) {
-    erros.push("Data de atualização inválida. Use o formato YYYY-MM-DD ou YYYY/MM/DD.");
+    erros.push("Data de atualização inválida. Use o formato YYYY-MM-DDTHH:mm.");
   }
 
   if (erros.length > 0) {

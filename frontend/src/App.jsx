@@ -1,19 +1,12 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
 import TabelaClientes from "./components/TabelaClientes";
+import TabelaProdutos from "./components/TabelaProdutos";
+import { ClientesProvider } from "./contexts/ClientesContext";
+
 
 const App = () => {
-  const [clientes, setClientes] = useState([]);
-
-  useEffect(() => {
-    const obterClientes = async () => {
-      const getAll = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/clientes`);
-      console.log(getAll);
-      setClientes(getAll.data);
-    };
-    obterClientes();
-  }, []);
+  const [produtos, setProdutos] = useState([]);
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-blue-100">
@@ -31,16 +24,19 @@ const App = () => {
           {/* Tabela clientes */}
           <div className="flex flex-col items-center justify-center">
             <h2 className="p-3 font-bold text-center text-3xl">Clientes</h2>
-            <TabelaClientes clientes={clientes} />
+            <ClientesProvider>
+              <TabelaClientes />
+            </ClientesProvider>
           </div>
         </div>
 
         {/* Produtos */}
         <div className="flex flex-col w-full h-fit border rounded-sm items-start justify-center p-3">
-          {/* Tabela clientes */}
+          {/* Tabela produtos */}
           <div className="flex flex-col items-center justify-center">
-            <h2 className="p-3 font-bold text-center text-3xl">Clientes</h2>
-            <TabelaClientes clientes={clientes} />
+            <h2 className="p-3 font-bold text-center text-3xl">Produtos</h2>
+
+            <TabelaProdutos produtos={produtos} />
           </div>
         </div>
       </div>

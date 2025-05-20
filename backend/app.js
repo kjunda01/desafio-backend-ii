@@ -9,6 +9,7 @@ import clientesRoutes from "./routes/clientesRoutes.js";
 
 dotenv.config();
 const app = express();
+app.use(express.json());
 
 app.use(
   cors({
@@ -25,7 +26,7 @@ app.use(
   }),
 );
 
-app.use(express.json());
+
 
 const routes = {
   "/": horaRoutes,

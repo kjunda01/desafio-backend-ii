@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import horaRoutes from "./routes/horaRoutes.js";
 import clientesRoutes from "./routes/clientesRoutes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-// import produtosRoutes from "./routes/produtosRoutes.js";
+import produtosRoutes from "./routes/produtosRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -29,7 +29,7 @@ app.use(
 const routes = {
   "/": horaRoutes,
   "/clientes": clientesRoutes,
-  // "/produtos": produtosRoutes,
+  "/produtos": produtosRoutes,
 };
 
 for (const [route, handler] of Object.entries(routes)) {

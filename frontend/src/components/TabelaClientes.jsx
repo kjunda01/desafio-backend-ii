@@ -3,28 +3,19 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import ModalEdit from "./ModalEdit";
+import ModalDelete from "./ModalDelete";
 import FieldSetEdit from "./form/FieldSetEdit";
 import { toast } from "react-toastify";
 
 const TabelaClientes = () => {
-  const { cliente, clientes, setCliente, setClientes, getAll, getSingle, update, remove } = useClientes();
+  const { cliente, clientes, setCliente, getAll, update, remove } = useClientes();
 
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
 
   useEffect(() => {
-    getAll;
+    getAll();
   }, []);
-
-  const handleDelete = async (cliente) => {
-    try {
-      await remove(cliente.id);
-      await getAll();
-      setIsModalDeleteOpen(false);
-    } catch (error) {
-      console.error("Erro ao deletar cliente:", error);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,7 +35,18 @@ const TabelaClientes = () => {
     }
   };
 
-  const handleCreate = () => {};
+  const handleDelete = async (id) => {
+    try {
+      await remove(id);
+      await getAll();
+      setIsModalDeleteOpen(false);
+      toast.success("Cliente removido com sucesso!");
+    } catch (error) {
+      const erro = error.response.data?.error?.[0]?.message;
+      toast.error(erro);
+      console.error(erro);
+    }
+  };
 
   return (
     <>
@@ -81,7 +83,7 @@ const TabelaClientes = () => {
                   <button
                     onClick={() => {
                       setIsModalDeleteOpen(true);
-                      handleDelete(cliente);
+                      setCliente(clienteAtual);
                     }}
                     className="cursor-pointer"
                   >
@@ -100,27 +102,64 @@ const TabelaClientes = () => {
         </tbody>
       </table>
 
-      <ModalEdit isOpen={isModalEditOpen} onClose={() => setIsModalEditOpen(false)}>
-        <form className="flex flex-col gap-3">
-          <p>ID: {cliente.id}</p>
+      {isModalEditOpen && (
+        <ModalEdit isOpen={isModalEditOpen} onClose={() => setIsModalEditOpen(false)}>
+          <form className="flex flex-col gap-3">
+            <p>ID: {cliente.id}</p>
 
-          <FieldSetEdit campo="NOME" name="nome" value={cliente.nome} onChange={handleChange} />
-          <FieldSetEdit campo="SOBRENOME" name="sobrenome" value={cliente.sobrenome} onChange={handleChange} />
-          <FieldSetEdit campo="EMAIL" type="email" name="email" value={cliente.email} onChange={handleChange} />
-          <FieldSetEdit campo="IDADE" type="number" name="idade" value={cliente.idade} onChange={handleChange} />
+            <FieldSetEdit campo="NOME" name="nome" value={cliente.nome} onChange={handleChange} />
+            <FieldSetEdit campo="SOBRENOME" name="sobrenome" value={cliente.sobrenome} onChange={handleChange} />
+            <FieldSetEdit campo="EMAIL" type="email" name="email" value={cliente.email} onChange={handleChange} />
+            <FieldSetEdit campo="IDADE" type="number" name="idade" value={cliente.idade} onChange={handleChange} />
 
-          <button
-            type="button"
-            onClick={(e) => {
-              setIsModalEditOpen(false);
-              handleEdit(cliente);
-            }}
-            className="p-2 bg-yellow-300 rounded-md flex items-center justify-center m-2 border hover:bg-amber-300 cursor-pointer"
-          >
-            Atualizar
-          </button>
-        </form>
-      </ModalEdit>
+            <button
+              type="button"
+              onClick={(e) => {
+                setIsModalEditOpen(false);
+                handleEdit(cliente);
+              }}
+              className="p-2 bg-yellow-300 rounded-md flex items-center justify-center m-2 border hover:bg-amber-300 cursor-pointer"
+            >
+              Atualizar
+            </button>
+          </form>
+        </ModalEdit>
+      )}
+
+      {isModalDeleteOpen && (
+        <ModalDelete isOpen={isModalDeleteOpen} onClose={() => setIsModalDeleteOpen(false)}>
+          <form className="flex flex-col gap-3">
+            <p className="text-xl flex flex-col text-center">
+              Deseja deletar o cliente{" "}
+              <span className="text-3xl italic">
+                {cliente.nome.toUpperCase()} {cliente.sobrenome.toUpperCase()} ?
+              </span>{" "}
+            </p>
+
+            <div className="flex items-center justify-end">
+              <button
+                type="submit"
+                className="p-2 bg-red-500 rounded-md flex items-center justify-center m-2 border hover:bg-red-800 cursor-pointer w-[25%] text-white"
+                onClick={(e) => {
+                  setIsModalDeleteOpen(false);
+                  handleDelete(cliente.id);
+                }}
+              >
+                Deletar
+              </button>
+              <button
+                type="submit"
+                className="p-2 text-white bg-green-700 hover:bg-green-900 rounded-md flex items-center justify-center m-2 border  cursor-pointer w-[25%]"
+                onClick={(e) => {
+                  setIsModalDeleteOpen(false);
+                }}
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </ModalDelete>
+      )}
     </>
   );
 };

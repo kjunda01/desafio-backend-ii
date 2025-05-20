@@ -3,10 +3,11 @@ import { useState } from "react";
 import TabelaClientes from "./components/TabelaClientes";
 import TabelaProdutos from "./components/TabelaProdutos";
 import { ClientesProvider } from "./contexts/ClientesContext";
-
+import CreateClientes from "./components/CreateClientes";
 
 const App = () => {
   const [produtos, setProdutos] = useState([]);
+
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-blue-100">
@@ -25,6 +26,7 @@ const App = () => {
           <div className="flex flex-col items-center justify-center">
             <h2 className="p-3 font-bold text-center text-3xl">Clientes</h2>
             <ClientesProvider>
+              <CreateClientes />
               <TabelaClientes />
             </ClientesProvider>
           </div>

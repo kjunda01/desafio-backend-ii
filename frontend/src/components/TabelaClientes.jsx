@@ -50,7 +50,7 @@ const TabelaClientes = () => {
 
   return (
     <>
-      <table className="min-w-full border-collapse border border-gray-300">
+      <table className="min-w-full border-collapse border border-gray-300 text-sm">
         <thead>
           <tr className="bg-gray-100">
             <th className="border border-gray-300 px-4 py-2">ID</th>

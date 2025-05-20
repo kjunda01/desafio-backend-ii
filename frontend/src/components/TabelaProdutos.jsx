@@ -57,7 +57,7 @@ const TabelaProdutos = () => {
 
   return (
     <>
-      <table className="min-w-full border-collapse border border-gray-300">
+      <table className="min-w-full border-collapse border border-gray-300 text-sm">
         <thead>
           <tr className="bg-gray-100">
             <th className="border border-gray-300 px-4 py-2">ID</th>
@@ -147,7 +147,7 @@ const TabelaProdutos = () => {
             <p className="text-xl flex flex-col text-center">
               Deseja deletar o produto{" "}
               <span className="text-3xl italic">
-                {produto.nome.toUpperCase()} {produto.sobrenome.toUpperCase()} ?
+                {produto.nome.toUpperCase()} - {produto.descricao.toUpperCase()} ?
               </span>{" "}
             </p>
 

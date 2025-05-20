@@ -20,7 +20,7 @@ const CreateClientes = () => {
       setIsModalCreateOpen(false);
       toast.success("Cliente criado com sucesso!");
     } catch (error) {
-      const erro = error?.response?.data?.error;
+      const erro = error.response.data.errors || error.response.data.message;
       toast.error(erro);
       console.error(erro);
     }
@@ -33,6 +33,7 @@ const CreateClientes = () => {
         className="bg-green-600 hover:bg-green-800 text-white p-1 mb-2 rounted rounded-md cursor-pointer"
         onClick={() => {
           setIsModalCreateOpen(true);
+          setCliente("");
         }}
       >
         Adicionar cliente

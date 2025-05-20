@@ -29,7 +29,7 @@ const TabelaClientes = () => {
       setIsModalEditOpen(false);
       toast.success("Cliente atualizado com sucesso!");
     } catch (error) {
-      const erro = error.response.data?.error?.[0]?.message;
+      const erro = error.response.data.errors || error.response.data.message;
       toast.error(erro);
       console.error(erro);
     }
@@ -42,7 +42,7 @@ const TabelaClientes = () => {
       setIsModalDeleteOpen(false);
       toast.success("Cliente removido com sucesso!");
     } catch (error) {
-      const erro = error.response.data?.error?.[0]?.message;
+      const erro = error.response.data.errors || error.response.data.message;
       toast.error(erro);
       console.error(erro);
     }
